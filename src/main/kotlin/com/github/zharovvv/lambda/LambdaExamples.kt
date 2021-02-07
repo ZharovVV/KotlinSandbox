@@ -66,3 +66,7 @@ fun main() {
     button.onClick()
     println(clicks)
 }
+
+fun topLevelFunc(var1: String, var2: String): String = var1 + var2
+
+val linkToTopLevelFunc: (String, String) -> String = ::topLevelFunc
