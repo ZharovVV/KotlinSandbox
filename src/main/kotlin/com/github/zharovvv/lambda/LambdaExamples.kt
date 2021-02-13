@@ -61,6 +61,8 @@ fun main() {
         clicks++    //Java: clicks.element++
     }
 
+    run(button.onClickListener) // it`s do the same as button.onClick()
+
     button.onClick()
     button.onClick()
     button.onClick()

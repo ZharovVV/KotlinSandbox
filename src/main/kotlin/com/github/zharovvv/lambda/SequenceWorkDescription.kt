@@ -1,7 +1,7 @@
 package com.github.zharovvv.lambda
 
 
-fun List<Person>.personNamesStartsWithJ(): List<String> {
+fun List<Person>.personNamesStartsWith(prefix: String): List<String> {
     /**
      * При вызове метода asSequence():
      * Создается объект (анонимный внутренний класс, реализующий интерфейс [Sequence],
@@ -48,7 +48,7 @@ fun List<Person>.personNamesStartsWithJ(): List<String> {
          * При вызове filter создается объект [FilteringSequence], который добавляет свое поведение в работу итератора.
          * По итогу метод возвращает Sequence<String>.
          */
-        .filter { personName -> personName.startsWith("j", ignoreCase = true) }
+        .filter { personName -> personName.startsWith(prefix, ignoreCase = true) }
         /**
          * При вызове данного метода, создается пустая коллекция,
          * осуществляется обход итератора итоговой последовательности.
