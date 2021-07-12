@@ -6,7 +6,7 @@ fun main(args: Array<String>) {
 
 private fun iteration() {
     val oneToTen: IntRange = 1..10  //Диапазоны в Kotlin являются закрытыми [1,10]
-    val oneTo30: IntRange = 1.rangeTo(30)
+    val oneTo30: IntRange = 1.rangeTo(30) //[1,30]
     val oneToNine: IntRange = 1 until 10 //Полузакрытый диапазон [1,10)
     for (i in oneToNine) {
         println(i)
