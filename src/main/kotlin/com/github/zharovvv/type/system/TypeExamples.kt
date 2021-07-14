@@ -4,7 +4,8 @@ import com.github.zharovvv.classes.User
 
 data class Example(
     var nullableString: String?,
-    val string: String = "Not Null"
+    val string: String = "Not Null",
+    var isEnabled: Boolean = true   //будет создан getter: isEnabled() и setter: setEnabled(...)
 )
 
 fun main() {
