@@ -15,7 +15,7 @@ package com.github.zharovvv.generic
  *  addAnswer(strings)  //Если это строка скомпилируется
  *  strings.maxByOrNull { it.length }//в этой строке будет исключение Integer cannot be cast to String во время выполнения
  * ```
- * В Java все классы инвариантны (хотя конкретные декларации, использующие эти классы, могут быть инвариантными).
+ * В Java все классы инвариантны (хотя конкретные декларации, использующие эти классы, могут не быть инвариантными).
  *
  * __Ковариантный класс__ - это обобщеннный класс, для которого верно следующе: если А подтип В, то Класс<A> подтип
  * Класс<B>. Пример ковариантного класса - [List].
@@ -33,7 +33,8 @@ package com.github.zharovvv.generic
 fun main() {
     val listString = mutableListOf("abc", "def")
     val listAny = mutableListOf<Any>()
-    copyData(listString, listAny)
+    copyData<Any>(listString, listAny)
+    copyData_<String>(listString, listAny)
 }
 
 /**
@@ -58,12 +59,21 @@ interface Transformer<T> {
  * В Kotlin есть поддержка вариантности в месте объявления (в объявлениях классов).
  * В Java есть только поддержка вариантности в месте использования.
  *
+ * Пример объявления вариантности в месте использования в Kotlin.
  * В данном случае мы объявлем _проекции типа_.
  * source - не просто список MutableList, а его проекция (с ограниченными возможностями; допускается только вызов методов,
  * возвращающих обобщенный параметр типа).
- * destination - наоборот, проекция, допускающая только вызов методов, принимающих обобщенный параметр типа.
  */
-fun <T> copyData(source: MutableList<out T>, destination: MutableList<in T>) {
+fun <T> copyData(source: MutableList<out T>, destination: MutableList<T>) {
+    for (item in source) {
+        destination.add(item)
+    }
+}
+
+/**
+ * В данном случае destination - проекция, допускающая только вызов методов, принимающих обобщенный параметр типа.
+ */
+fun <T> copyData_(source: MutableList<T>, destination: MutableList<in T>) {
     for (item in source) {
         destination.add(item)
     }
