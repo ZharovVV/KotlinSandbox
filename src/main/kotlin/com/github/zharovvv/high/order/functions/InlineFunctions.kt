@@ -80,7 +80,8 @@ class LockOwner(private val lock: Lock) {
 }
 
 /**
- * В общем случае параметр можно встроить, если его вызывают непосредственно или передают как аргумент другой функции.
+ * В общем случае параметр можно встроить, если его вызывают непосредственно или передают как аргумент
+ * другой встраиваемой функции.
  */
 inline fun foo__(inlined: () -> Unit, noinline notInlined: () -> Unit) {
 //    val inlinedFunc: () -> Unit = inlined // Ошибка при компиляции: "Illegal usage of inline-parameter"
