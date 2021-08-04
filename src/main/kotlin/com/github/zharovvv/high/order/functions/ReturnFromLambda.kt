@@ -3,7 +3,10 @@ package com.github.zharovvv.high.order.functions
 import com.github.zharovvv.lambda.Person
 
 /**
- * # Возвраты из лямбда выражений
+ * # Возвраты из лямбда-выражений
+ *  Общее правило: выход из внешней функции выполняется только тогда, когда функция, принимающая лямбда-выражение,
+ *  является встраиваемой.
+ *
  *
  * Пример нелокального возврата.
  */
@@ -74,6 +77,17 @@ fun lookForAlice__(people: List<Person>) {
  */
 val anonymousFun: (intVal: Int) -> String = fun(intVal): String {
     return intVal.toString()
+}
+
+fun someFun() {
+    noinlineFun {
+        println(it)
+        return@noinlineFun  //Возможен только локальный возврат, так как лямбда-выражение передается не в inline-функцию
+    }
+}
+
+fun noinlineFun(block: (String) -> Unit) {
+    block("noinline")
 }
 
 fun main() {
