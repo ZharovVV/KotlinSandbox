@@ -24,6 +24,8 @@ package com.github.zharovvv.dsl
  * на языке общего назначения и имеющая точно такой же синтаксис. То есть внутренний DSL нельзя считать полностью независимым
  * языком - скорее, это иной способ использования основного языка с сохранением преимуществ, присущих предметно-ориентированным
  * языкам.
+ *
+ * Инструментами для создания внутреннего DSL в Kotlin являются лямбда-выражения с получателем и соглашения invoke.
  */
 fun main() {
     val string = "1"
@@ -54,4 +56,15 @@ fun main() {
             }
         }
     println(screen)
+
+    ultraFun { int1, int2 ->
+        println(this + int1 + int2) //string12
+    }
+}
+
+fun ultraFun(initBlock: String.(int1: Int, int2: Int) -> Unit) {
+    val string = "string"
+    val int1 = 1
+    val int2 = 2
+    string.initBlock(int1, int2)
 }
