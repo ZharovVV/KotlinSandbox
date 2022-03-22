@@ -3,6 +3,7 @@ package com.github.zharovvv.coroutines
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.coroutines.Continuation
 
 /**
  * # Continuation
@@ -49,6 +50,22 @@ class ContinuationExample {
     suspend fun suspendFunExample(data: String) {
         println(data)
     }
+
+    /**
+     * [kotlin.coroutines.Continuation] представляет собой callback и имеет следующие методы:
+     * ```kotlin
+     * public interface Continuation<in T> {
+     *  public val context: CoroutineContext
+     *  public fun resumeWith(result: Result<T>)
+     * }
+     * ```
+     */
+    val continuation: Continuation<Any?>? = null
+
+    /**
+     * [Result] - обычный value-класс, хранящий результат или ошибку.
+     */
+    val result: Result<Any?> = Result.failure(IllegalStateException())
 }
 
 suspend fun main() {
