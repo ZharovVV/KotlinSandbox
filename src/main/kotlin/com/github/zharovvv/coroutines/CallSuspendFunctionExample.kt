@@ -6,6 +6,7 @@ fun main() {
     val startTime = System.currentTimeMillis()
     runBlocking {
         launch {
+            println("launch coroutine 1")
             val startTime1 = System.currentTimeMillis()
             val value1 = simpleSuspendFun1()
             val value2 = simpleSuspendFun2()
@@ -14,11 +15,14 @@ fun main() {
             //coroutine 1: value1; value2; 6014 ms
         }
         launch {
+            println("launch coroutine 2")
             val startTime1 = System.currentTimeMillis()
             val deferred1: Deferred<String> = async {
+                println("async coroutine 3")
                 simpleSuspendFun1()
             }
             val deferred2: Deferred<String> = async {
+                println("async coroutine 4")
                 simpleSuspendFun2()
             }
             delay(2000)
