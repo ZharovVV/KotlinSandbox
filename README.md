@@ -2,20 +2,24 @@
 
 Конспект по книге "Kotlin in Action"
 
-### Запуск проекта (maven)
+### Запуск проекта (gradle)
 
-* Прописать main-класс в _environment.properties_
+* Прописать main-класс в _build.gradle.kts_
+
+```kotlin
+application {
+    mainClass.set("com.github.zharovvv.delegating.DelegatingKt")
+}
 ```
-main.class=com.github.zharovvv.delegating.DelegatingKt
-```
+
 * Собрать jar:
 
 ```
-mvn clean instal
+gradle jar
 ```
 
 * Запустить jar:
 
 ```
-java -jar <Project Directory>/target/kotlin-sandbox-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar <Project Directory>/build/libs/kotlin-sandbox-1.0-SNAPSHOT.jar
 ```
