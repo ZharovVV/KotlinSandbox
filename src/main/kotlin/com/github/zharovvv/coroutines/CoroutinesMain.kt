@@ -86,6 +86,8 @@ import kotlin.coroutines.Continuation
  * __Состояние корутины (например isActive) проверяется перед тем, как продолжить её выполнение
  * после прерывания. Т.е. перед вызовом любой suspend функции корутина может быть остановлена.__
  *
+ * #
+ * ## Примеры некоторых функций
  *
  * * [launch] - это builder сопрограмм.
  * Он запускает новую сопрограмму одновременно с остальным кодом, которая продолжает работать независимо.
@@ -128,8 +130,10 @@ import kotlin.coroutines.Continuation
 fun main() {
     //Блокирует текущий поток (до тех пор пока все сопрограммы внутри блока runBlocking не будут выполнены)
     runBlocking {
+        val runBlockingCoroutineScope = this
         //val coroutineScope: CoroutineScope = this
         launch { //is the same coroutineScope.launch {...}
+            val coroutineScope = this
             println("launch 1st coroutine")
             delay(timeMillis = 1000)
             println("World!")
