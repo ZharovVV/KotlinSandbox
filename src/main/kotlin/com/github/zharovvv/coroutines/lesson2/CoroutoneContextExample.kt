@@ -1,4 +1,4 @@
-package com.github.zharovvv.coroutines
+package com.github.zharovvv.coroutines.lesson2
 
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

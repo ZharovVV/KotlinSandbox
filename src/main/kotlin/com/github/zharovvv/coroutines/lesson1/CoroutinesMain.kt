@@ -1,5 +1,6 @@
-package com.github.zharovvv.coroutines
+package com.github.zharovvv.coroutines.lesson1
 
+import com.github.zharovvv.coroutines.customLaunch
 import kotlinx.coroutines.*
 import kotlin.coroutines.Continuation
 
