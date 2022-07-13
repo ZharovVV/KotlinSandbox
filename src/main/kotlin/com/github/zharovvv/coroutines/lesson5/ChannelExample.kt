@@ -115,6 +115,13 @@ fun main() {
             val data = receiveAndLog()  //receive = 2002
         }
         sendChannel.send(2002)
+        println(sendChannel.isClosedForSend) //false
+        try {
+            sendChannel.send(100500)
+        } catch (e: Exception) {
+            e.printStackTrace() //java.util.concurrent.CancellationException: RendezvousChannel was cancelled
+            throw e
+        }
         val receiveChannel: ReceiveChannel<Int> = produce {
             send(2003)
         }

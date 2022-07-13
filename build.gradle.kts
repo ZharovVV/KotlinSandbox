@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.10"
     application
 }
 
@@ -8,10 +8,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.20")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
     testImplementation("junit:junit:4.12")
 }
 
