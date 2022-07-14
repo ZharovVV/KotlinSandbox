@@ -7,6 +7,8 @@ import kotlinx.coroutines.channels.Channel.Factory.RENDEZVOUS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import other.directory.utils.ConsoleColor
+import other.directory.utils.colorize
 import java.util.concurrent.BlockingQueue
 
 /**
@@ -112,16 +114,48 @@ fun main() {
         `example RENDEZVOUS`()
         `example CONFLATED`()
         val sendChannel: SendChannel<Int> = actor {
+            //после вызова receive корутина actor-a будет приостановлена
+            //возобновится, когда в канал будет отправлен элемент
             val data = receiveAndLog()  //receive = 2002
         }
-        sendChannel.send(2002)
-        println(sendChannel.isClosedForSend) //false
-        try {
-            sendChannel.send(100500)
-        } catch (e: Exception) {
-            e.printStackTrace() //java.util.concurrent.CancellationException: RendezvousChannel was cancelled
-            throw e
+        sendChannel.send(2002)  //после этого вызова канал будет закрыт, так как actor
+        //получит элемент, а затем завершит свой блок -> корутина отменится -> канал будет закрыт
+
+        println("sendChannel.isClosedForSend = ${sendChannel.isClosedForSend}") //false
+        println("sendChannel.isClosedForReceive (cast to Channel) = ${(sendChannel as Channel<Int>).isClosedForReceive}") //false
+        val channelResult = sendChannel.trySend(100500)
+        println("ChannelResult.isClosed = ${channelResult.isClosed}") //false
+        // - канал ещё не успел закрыться,
+        // так как корутина, запущенная в actor ещё не отменена
+        println("ChannelResult.isSuccess = ${channelResult.isSuccess}") //false
+        println("ChannelResult.isFailure = ${channelResult.isFailure}") //true
+        // а зафейлилось, потому что переполнен буфер
+
+        launch(CoroutineName("YELLOW_COROUTINE")) {
+            println(
+                "sendChannel.isClosedForSend = ${sendChannel.isClosedForSend}"  //true
+                    .colorize(ConsoleColor.YELLOW)
+            )
+            println(
+                ("sendChannel.isClosedForReceive (cast to Channel) = " +
+                        "${(sendChannel as Channel<Int>).isClosedForReceive}")  //true
+                    .colorize(ConsoleColor.YELLOW)
+            )
+            val channelResult1 = sendChannel.trySend(100500)
+            println("ChannelResult.isClosed = ${channelResult1.isClosed}".colorize(ConsoleColor.YELLOW)) //true
+            println("ChannelResult.isSuccess = ${channelResult1.isSuccess}".colorize(ConsoleColor.YELLOW)) //false
+            println("ChannelResult.isFailure = ${channelResult1.isFailure}".colorize(ConsoleColor.YELLOW)) //true
         }
+
+        launch {
+            try {
+                sendChannel.send(111222)
+            } catch (e: Exception) {
+                e.printStackTrace() //java.util.concurrent.CancellationException: RendezvousChannel was cancelled
+                throw e
+            }
+        }
+
         val receiveChannel: ReceiveChannel<Int> = produce {
             send(2003)
         }

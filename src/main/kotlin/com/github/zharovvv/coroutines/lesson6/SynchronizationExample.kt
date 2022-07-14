@@ -166,11 +166,18 @@ class Counter(coroutineContext: CoroutineContext = EmptyCoroutineContext) {
     private var counter: Int = 0
 
     private val counterCommands = scope.actor<CounterCommand> {
+        //После выполнения block actor-а ActorCoroutine отменяется,
+        // а также под капотом отменяется и Channel, которому делегировалась вся работа
         consumeEach { command -> // либо for (command in this) {
+            //consumeEach под капотом также вызывает итератор в цикле while(iterator.hasNext()) {...}
+            //ChannelIterator.hasNext - это suspend-функция
+            //Возвращает true, если в канале есть элементы,
+            //приостанавливает вызывающую сторону, пока этот канал пуст,
+            // или возвращает false, если канал закрыт для приема без причины.
             when (command) {
                 is CounterCommand.Add -> counter += command.count
                 is CounterCommand.Remove -> counter -= command.count
-                is CounterCommand.Get -> command.response.complete(counter)
+                is CounterCommand.Get -> (command.response as CompletableDeferred<Int>).complete(counter)
             }
         }
     }
@@ -188,14 +195,14 @@ class Counter(coroutineContext: CoroutineContext = EmptyCoroutineContext) {
     suspend operator fun minusAssign(count: Int) = remove(count)
 
     suspend fun getCount(): Int {
-        val getCommand = CounterCommand.Get(CompletableDeferred())
+        val getCommand = CounterCommand.Get()
         counterCommands.send(getCommand)
         return getCommand.response.await()
     }
 
-    sealed class CounterCommand {
+    private sealed class CounterCommand {
         class Add(val count: Int) : CounterCommand()
         class Remove(val count: Int) : CounterCommand()
-        class Get(val response: CompletableDeferred<Int>) : CounterCommand()
+        class Get(val response: Deferred<Int> = CompletableDeferred()) : CounterCommand()
     }
 }
