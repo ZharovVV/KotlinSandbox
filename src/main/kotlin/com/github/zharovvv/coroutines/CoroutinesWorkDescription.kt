@@ -47,7 +47,11 @@ fun main() {
         //создание StandaloneCoroutine
         //вызывается coroutine.start(...)
         //DispatchedContinuation помещается в очередь
-        launch {
+        launch(CoroutineName("1st Coroutine")) {
+            println("thread for ${coroutineContext[CoroutineName]?.name}: ${Thread.currentThread()}")
+            //thread for 1st Coroutine: Thread[main,5,main]
+            //как видно используется не Dispatchers.Default - из-за того, что в скоупе runBlocking задан другой диспатчер
+
             //блок кода начнет выполняться когда он будет извлечен из очереди
             //(извлечение из очереди происходит в вечном цикле в методе BlockingCoroutine#joinBlocking)
             println(this)
@@ -71,6 +75,10 @@ fun main() {
             for (i in 0..2) {
                 println("first coroutine: $i")
             }
+        }
+        launch(CoroutineName("2nd Coroutine") + Dispatchers.Default) {
+            println("thread for ${coroutineContext[CoroutineName]?.name}: ${Thread.currentThread()}")
+            //thread for 2nd Coroutine: Thread[DefaultDispatcher-worker-1,5,main]
         }
         launch {
             println(this)
