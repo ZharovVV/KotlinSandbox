@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.github.zharovvv.coroutines.lesson4
 
 import kotlinx.coroutines.*
@@ -18,7 +20,8 @@ import kotlin.coroutines.coroutineContext
  * Все исключения, которые вы не обработаете, будут доставлены родительской корутине и скоупу,
  * свянному с ней и приводить к остановке с ошибкой. Если вы в рамках скоупа используете [Job],
  * то дочерние корутины будут также остановлены, но без ошибки.
- * Чтобы этого не происходило используйте [SupervisorJob].
+ * Чтобы этого не происходило используйте [SupervisorJob]. В таком случае ошибка в дочерней джобе не приведет
+ * к отмене других дочерних джоб, а также самого родителя.
  *
  * Чтобы перехватывать исключения во всем скоупе, можно обернуть весь
  * [coroutineScope] или [supervisorScope] try-catch-м:
@@ -123,7 +126,34 @@ import kotlin.coroutines.coroutineContext
  * __Важно!__ Это API сделано только для использования с withContext.
  * Попытка передать его в CoroutineScope, launch и т.п. приведет к нарушению принципов _structured concurrency_.
  *
- *
+ * #
+ * ## Дополнительные материалы
+ * * [Exceptions in coroutines (Android Developers)](https://medium.com/androiddevelopers/exceptions-in-coroutines-ce8da1ec060c)
+ * Так например, там описано, что передача [SupervisorJob] в качестве аргумента в coroutine builder не будет иметь
+ * желаемого эффекта. [SupervisorJob] работает так как описано только если он является частью [CoroutineScope], т.е
+ * когда скоуп создан через [supervisorScope], либо через CoroutineScope(SupervisorJob).
+ * Ещё важный тезис из статьи: необработанные исключения всегда доставляются родительской джобе,
+ * поэтому [CoroutineExceptionHandler] (который должен отлавливать ошибки в дочерних корутинах) нужно устанавливать
+ * в контексте родительской корутины.
+ * ```
+ *  val scope = CoroutineScope(Job())
+ *  scope.launch(handler) {
+ *      launch {
+ *          throw Exception("Failed coroutine") //будет обработано handler-ом
+ *      }
+ *  }
+ *  ...
+ *  val scope = CoroutineScope(Job())
+ *  scope.launch {
+ *      launch(handler) {
+ *          throw Exception("Failed coroutine") //не будет обработано handler-ом
+ *          //Так как handler установлен не в том контексте.
+ *          // Исключение распространится до родительской корутины,
+ *          // а поскольку в контексте родителя хендлер не задан,
+ *          // исключение не будет обработано.
+ *      }
+ *  }
+ * ```
  */
 fun main(): Unit = runBlocking {
     CoroutineScope(SupervisorJob()).launch(CoroutineName("example1")) {

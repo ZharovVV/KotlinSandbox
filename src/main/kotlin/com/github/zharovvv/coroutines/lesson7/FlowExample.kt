@@ -305,7 +305,8 @@ fun main() = mainRunBlocking {
                 println("onEach: ${it}; currentThread = ${Thread.currentThread()}")
                 //onEach: 1; currentThread = Thread[MainDispatcher,5,main]
             }
-            .flowOn(Dispatchers.Main)
+//            .flowOn(Dispatchers.Main) //onEach action итак будет вызван на этом диспатчере,
+//            так как collect запускается в скоупе launch (то есть с Dispatchers.Main)
             .collect()
 
         //корутина никогда сама не завершится
