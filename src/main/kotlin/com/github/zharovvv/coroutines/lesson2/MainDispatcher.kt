@@ -15,9 +15,10 @@ class MainDispatcherFactoryImpl : MainDispatcherFactory {
 }
 
 
-//@OptIn(DelicateCoroutinesApi::class)
+@OptIn(DelicateCoroutinesApi::class)
 //Не требуется, так как согласие на использование апи дано на уровне всего модуля
 //См. build.gradle.kts - файл
+//upd: снова требуется, т.к. удалил согласие на уровне модуля
 class MainCoroutineDispatcherImpl : MainCoroutineDispatcher() {
 
     private val dispatcher = newSingleThreadContext("MainDispatcher")

@@ -279,6 +279,7 @@ import kotlinx.coroutines.flow.*
  * Так как все выполняется по умолчанию последовательно, а если мы решаем использовать buffer, тогда мы явно указываем
  * параметры, что будет происходить в случае его переполнения.
  */
+@OptIn(DelicateCoroutinesApi::class)
 fun main() = mainRunBlocking {
     flowOf(1)
     flowOf(1, 2, 3)

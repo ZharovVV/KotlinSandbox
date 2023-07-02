@@ -123,7 +123,16 @@ import kotlin.coroutines.coroutineContext
  *
  */
 fun main(): Unit = runBlocking {
-
+    coroutineScope {
+        launch {
+            println("launch 2")
+        }
+        launch(Dispatchers.IO) {
+            println("launch 1")
+        }
+        println("start coroutine Scope")
+    }
+    println("end")
 }
 
 //Для примера. Тут работать не будет, так как нужна реализация MainCoroutineDispatcher.
