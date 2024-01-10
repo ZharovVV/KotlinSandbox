@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.9.22"
     application
 }
 
@@ -8,10 +8,15 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
+    /*
+    Зависимость от стандартной библиотеки (stdlib) автоматически добавляется в каждый исходный набор.
+    Версия используемой стандартной библиотеки такая же, как и версия плагина Kotlin Gradle.
+    Подробнее тут https://kotlinlang.org/docs/gradle-configure-project.html#dependency-on-the-standard-library
+     */
+    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
     testImplementation("junit:junit:4.12")
 }
 

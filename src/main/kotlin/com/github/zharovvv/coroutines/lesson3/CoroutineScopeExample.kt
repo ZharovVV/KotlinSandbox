@@ -111,7 +111,7 @@ import kotlin.coroutines.coroutineContext
  * При попытке запустить любую корутину на отмененном скоупе корутина сразу будет останавливаться с ошибкой.
  * Если же мы хотим отменить все корутины в рамках скоупа, но скоуп должен остаться живым нужно сделать так:
  * ```kotlin
- *  scope.coroutineContext[Job]?.cancel()
+ *  scope.coroutineContext.cancelChildren()
  * ```
  *
  * #
