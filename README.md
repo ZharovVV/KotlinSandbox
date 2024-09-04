@@ -3,15 +3,15 @@
 Конспект по книге "Kotlin in Action"
 
 `+` заметки из Notion:
-[Алгоритмы](notion/algorithms.md)
-[Структуры данных](notion/data_structures.md)
-[Patterns & App Architecture](notion/patterns_and_app_architecture.md)
-[Многопоточность](notion/multithreading.md)
-[Java](notion/java.md)
-[Kotlin](notion/kotlin.md)
-[Coroutines](notion/coroutines.md)
-[Android](notion/android.md)
-[Gradle](notion/gradle.md)
+* [Алгоритмы](notion/algorithms.md)
+* [Структуры данных](notion/data_structures.md)
+* [Patterns & App Architecture](notion/patterns_and_app_architecture.md)
+* [Многопоточность](notion/multithreading.md)
+* [Java](notion/java.md)
+* [Kotlin](notion/kotlin.md)
+* [Coroutines](notion/coroutines.md)
+* [Android](notion/android.md)
+* [Gradle](notion/gradle.md)
 
 ### Запуск проекта (gradle)
 

@@ -87,7 +87,7 @@ lock.unlock() //снятие блокировки
 
 [Обработка ошибок в корутинах](coroutines/error_hadling.md)
 
-[`*Channel*`](coroutines/channel.md)
+[Channel](coroutines/channel.md)
 
 [Синхронизация в корутинах](coroutines/synchronization.md)
 
