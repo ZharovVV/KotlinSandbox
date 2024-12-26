@@ -12,6 +12,7 @@
 * [Coroutines](notion/coroutines.md)
 * [Android](notion/android.md)
 * [Gradle](notion/gradle.md)
+* [Computer networks](notion/networks/contents.md)
 
 ### Запуск проекта (gradle)
 
