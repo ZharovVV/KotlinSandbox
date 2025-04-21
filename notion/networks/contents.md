@@ -2,3 +2,4 @@
 
 ## [Глава 1. Введение](introduction.md)
 ## [Глава 2. Физический уровень](physical_layer.md)
+## [Глава 3. Канальный уровень](channel_layer.md)
